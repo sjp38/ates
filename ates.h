@@ -53,8 +53,8 @@ void ates_pr_csv_endmark(void);
 struct ates_test *ates_append_test(struct ates_test *tests, int sz_tests,
 					struct ates_test *test);
 
-int run_tests(struct ates_test tests[], int nr_tests,
+int run_tests(struct ates_test tests[],
 		char do_pf, char do_nonpf);
-int ates_run_tests(struct ates_test tests[], int nr_tests);
+int ates_run_tests(struct ates_test tests[]);
 
 #endif

@@ -196,18 +196,15 @@ struct ates_test *ates_append_test(struct ates_test *tests, int sz_tests,
 /*
  * run_tests - run multiple tests
  *
- * @tests	Array of tests.
- * @nr_tests	Number of tests in @tests.
+ * @tests	Array of tests.  Last test should be an empty struct.
  * @do_pf	Do pass/fail tests.
  * @do_nonpf	Do non-pass/fail tests.
  *
  * Returns 0 if whole pass/fail tests passed, non-zero else.
  */
-int run_tests(struct ates_test tests[], int nr_tests,
-		char do_pf, char do_nonpf)
+int run_tests(struct ates_test tests[], char do_pf, char do_nonpf)
 {
 	struct ates_test *test;
-	int i;
 	int result;
 	int nr_passed;
 	int nr_executed;
@@ -216,8 +213,7 @@ int run_tests(struct ates_test tests[], int nr_tests,
 
 	nr_passed = 0;
 	nr_executed = 0;
-	for (i = 0; i < nr_tests; i++) {
-		test = &tests[i];
+	for (test = &tests[0]; test->fn; test++) {
 		if (test->is_passfail && !do_pf)
 			continue;
 		if (!test->is_passfail && !do_nonpf)
@@ -250,14 +246,14 @@ static char DO_PERF_TEST = 1;
 /*
  * ates_run_tests - run multiple tests
  *
- * @tests	Array of tests.
+ * @tests	Array of tests.  Last test should be an empty struct.
  * @nr_tests	Number of tests in @tests.
  *
  * Returns 0 if whole pass/fail tests passed, non-zero else.
  */
-int ates_run_tests(struct ates_test tests[], int nr_tests)
+int ates_run_tests(struct ates_test tests[])
 {
 	if (cpu_freq == 0)
 		cpu_freq = aclk_freq();
-	return run_tests(tests, nr_tests, DO_CORRECT_TEST, DO_PERF_TEST);
+	return run_tests(tests, DO_CORRECT_TEST, DO_PERF_TEST);
 }

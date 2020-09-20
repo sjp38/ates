@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
 
 	tests = (struct ates_test []) {
 		{.fn = test_sum, .name = "test sum", .is_passfail = 1},
+		{}
 	};
-	return ates_run_tests(tests, 1);
+	return ates_run_tests(tests);
 }
